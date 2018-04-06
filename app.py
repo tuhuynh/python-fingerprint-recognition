@@ -70,6 +70,9 @@ def get_descriptors(img):
 	orb = cv2.ORB_create()
 	# Compute descriptors
 	_, des = orb.compute(img, keypoints)
+	
+	
+	
 	return (keypoints, des);
 
 
@@ -81,7 +84,9 @@ def main():
 	image_name = sys.argv[2]
 	img2 = cv2.imread("database/" + image_name, cv2.IMREAD_GRAYSCALE)
 	kp2, des2 = get_descriptors(img2)
+
 	
+
 	# Matching between descriptors
 	bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
 	matches = sorted(bf.match(des1, des2), key= lambda match:match.distance)
@@ -91,17 +96,20 @@ def main():
 	f, axarr = plt.subplots(1,2)
 	axarr[0].imshow(img4)
 	axarr[1].imshow(img5)
+
+	
 	plt.show()
 	# Plot matches
 	img3 = cv2.drawMatches(img1, kp1, img2, kp2, matches, flags=2, outImg=None)
 	plt.imshow(img3)
+	plt.title("Diem tuong dong tren hai anh")
 	plt.show()
 	
 	# Calculate score
 	score = 0;
 	for match in matches:
 		score += match.distance
-	score_threshold = 33
+	score_threshold = 33 
 	if score/len(matches) < score_threshold:
 		print("Fingerprint matches.")
 	else:
