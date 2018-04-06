@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from enhance import image_enhance
 from skimage.morphology import skeletonize, thin
 
-os.chdir("C:\Users\kjanko\Desktop\python-fingerprint-recognition")
+os.chdir("/home/httu/code_python_FP_test/python-fingerprint-recognition")
 
 def removedot(invertThin):
     temp0 = numpy.array(invertThin[:])
@@ -35,15 +35,16 @@ def removedot(invertThin):
                 flag +=1
             if flag > 3:
                 temp2[i:i + filtersize, j:j + filtersize] = numpy.zeros((filtersize, filtersize))
-
     return temp2
-
+	
 
 def get_descriptors(img):
- 	clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+
+	clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
 	img = clahe.apply(img)
 	img = image_enhance.image_enhance(img)
 	img = numpy.array(img, dtype=numpy.uint8)
+	
 	# Threshold
 	ret, img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU);
 	# Normalize to 0 and 1 range
@@ -53,10 +54,12 @@ def get_descriptors(img):
 	skeleton = skeletonize(img)
 	skeleton = numpy.array(skeleton, dtype=numpy.uint8)
 	skeleton = removedot(skeleton)
+	
 	# Harris corners
 	harris_corners = cv2.cornerHarris(img, 3, 3, 0.04)
 	harris_normalized = cv2.normalize(harris_corners, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32FC1)
 	threshold_harris = 125;
+	
 	# Extract keypoints
 	keypoints = []
 	for x in range(0, harris_normalized.shape[0]):

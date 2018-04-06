@@ -60,7 +60,7 @@ Created on Tue Apr 19 12:14:49 2016
 import numpy as np
 #import math
 #import scipy.ndimage
-from frequest import frequest
+from enhance import frequest as frq
 
 def ridge_freq(im, mask, orient, blksze, windsze,minWaveLength, maxWaveLength):
     rows,cols = im.shape;
@@ -72,7 +72,7 @@ def ridge_freq(im, mask, orient, blksze, windsze,minWaveLength, maxWaveLength):
             blkor = orient[r:r+blksze][:,c:c+blksze];
             
             
-            freq[r:r+blksze][:,c:c+blksze] = frequest(blkim,blkor,windsze,minWaveLength,maxWaveLength);
+            freq[r:r+blksze][:,c:c+blksze] = frq.frequest(blkim,blkor,windsze,minWaveLength,maxWaveLength);
     
     freq = freq*mask;
     freq_1d = np.reshape(freq,(1,rows*cols));
