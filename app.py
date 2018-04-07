@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from enhance import image_enhance
 from skimage.morphology import skeletonize, thin
 
-os.chdir("/home/httu/code_python_FP_test/python-fingerprint-recognition")
+
 
 def removedot(invertThin):
     temp0 = numpy.array(invertThin[:])
